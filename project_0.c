@@ -1,13 +1,3 @@
-#include <stdio.h>
-#include <stdarg.h>
-
-/**
- * _printf - prints output according to a format.
- * @format: format string.
- *
- * Return: the number of characters printed (excluding the null byte used to
- * end output to strings).
- */
 int _printf(const char *format, ...)
 {
     if (format == NULL)
@@ -38,7 +28,17 @@ int _printf(const char *format, ...)
                     count += putchar(va_arg(arg, int));
                     break;
                 case 's':
-                    count += _print_str(va_arg(arg, char *));
+                    {
+                        char *str = va_arg(arg, char *);
+                        if (str == NULL)
+                        {
+                            count += _print_str("(null)");
+                        }
+                        else
+                        {
+                            count += _print_str(str);
+                        }
+                    }
                     break;
                 case '%':
                     count += putchar('%');
