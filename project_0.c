@@ -1,61 +1,59 @@
+#include <stdio.h>
+#include <stdarg.h>
+
+/**
+ * _printf - prints output according to a format.
+ * @format: format string.
+ *
+ * Return: the number of characters printed (excluding the null byte used to
+ * end output to strings).
+ */
 int _printf(const char *format, ...)
 {
-    if (format == NULL)
-    {
-        return 0;
-    }
-
     int count = 0;
+    va_list args;
+    int i, j;
+    char *str_arg;
 
-    va_list arg;
+    va_start(args, format);
 
-    va_start(arg, format);
-
-    for (int i = 0; format[i] != '\0'; i++)
+    for (i = 0; format[i]; i++)
     {
         if (format[i] == '%')
         {
             i++;
 
-            if (format[i] == '\0')
-            {
-                return -1;
-            }
-
             switch (format[i])
             {
                 case 'c':
-                    count += putchar(va_arg(arg, int));
+                    putchar(va_arg(args, int));
+                    count++;
                     break;
                 case 's':
+                    str_arg = va_arg(args, char *);
+                    if (str_arg)
                     {
-                        char *str = va_arg(arg, char *);
-                        if (str == NULL)
+                        for (j = 0; str_arg[j]; j++)
                         {
-                            count += _print_str("(null)");
-                        }
-                        else
-                        {
-                            count += _print_str(str);
+                            putchar(str_arg[j]);
+                            count++;
                         }
                     }
                     break;
                 case '%':
-                    count += putchar('%');
-                    break;
-                default:
-                    count += putchar('%');
-                    count += putchar(format[i]);
+                    putchar('%');
+                    count++;
                     break;
             }
         }
         else
         {
-            count += putchar(format[i]);
+            putchar(format[i]);
+            count++;
         }
     }
 
-    va_end(arg);
+    va_end(args);
 
     return count;
 }
