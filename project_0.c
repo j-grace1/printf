@@ -14,6 +14,7 @@ int _printf(const char *format, ...)
 	va_list args;
 	int i, j;
 	char *str_arg;
+    int int_arg;
 
 	va_start(args, format);
 
@@ -40,6 +41,12 @@ int _printf(const char *format, ...)
 						}
  					}
 					break;
+				case 'd':
+				case 'i':
+				    int_arg = va_arg(args, int);
+				    printf("%d", int_arg);
+				    count++;
+				    break;
 				case '%':
 					putchar('%');
 					count++;
