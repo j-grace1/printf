@@ -1,6 +1,9 @@
-#ifndef HOLBERTON_H
-#define HOLBERTON_H
+#ifndef MAIN_H
+#define MAIN_H
 
+
+
+int _printf(const char *format, ...);
 int _putchar(char c);
 
 #endif /* HOLBERTON_H */
