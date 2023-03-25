@@ -45,7 +45,6 @@ int _printf(const char *format, ...)
 				case 'i':
 				    int_arg = va_arg(args, int);
 				    printf("%d", int_arg);
-				    count++;
 				    break;
 				case '%':
 					putchar('%');
