@@ -1,59 +1,52 @@
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 
-/**
- * _printf - prints output according to a format.
- * @format: format string.
- *
- * Return: the number of characters printed (excluding the null byte used to
- * end output to strings).
- */
 int _printf(const char *format, ...)
 {
-    int count = 0;
     va_list args;
-    int i, j;
-    char *str_arg;
-
     va_start(args, format);
 
-    for (i = 0; format[i]; i++)
-    {
-        if (format[i] == '%')
-        {
+    int count = 0;
+
+    for (int i = 0; format[i] != '\0'; i++) {
+        if (format[i] == '%') {
             i++;
 
-            switch (format[i])
-            {
-                case 'c':
-                    putchar(va_arg(args, int));
+            switch (format[i]) {
+                case 'c': {
+                    char c = (char) va_arg(args, int);
+                    putchar(c);
                     count++;
                     break;
-                case 's':
-                    str_arg = va_arg(args, char *);
-                    if (str_arg)
-                    {
-                        for (j = 0; str_arg[j]; j++)
-                        {
-                            putchar(str_arg[j]);
-                            count++;
-                        }
+                }
+
+                case 's': {
+                    char *s = va_arg(args, char *);
+                    if (s == NULL) {
+                        s = "";
                     }
+                    printf("%s", s);
+                    count += strlen(s);
                     break;
-                case '%':
+                }
+
+                case '%': {
                     putchar('%');
                     count++;
                     break;
+                }
+
+                default: {
+                    printf("Error: invalid format specifier %%%c\n", format[i]);
+                    return -1;
+                }
             }
-        }
-        else
-        {
+        } else {
             putchar(format[i]);
             count++;
         }
     }
 
     va_end(args);
-
     return count;
 }
